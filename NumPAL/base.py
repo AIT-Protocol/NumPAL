@@ -7,11 +7,11 @@ from typing import Any, Dict, List, Optional
 from langchain.callbacks.manager import CallbackManagerForChainRun
 from langchain.chains.base import Chain
 from langchain.chains.llm import LLMChain
-from neurons.miners.utils.code_executor import PythonSim
 from langchain_core.language_models import BaseLanguageModel
 
 from .colored_object_prompt import COLORED_OBJECT_PROMPT
 from .math_prompt import MATH_PROMPT
+from .code_executor import PythonSim
 from pydantic import Extra, Field
 
 COMMAND_EXECUTION_FUNCTIONS = ["system", "exec", "execfile", "eval", "__import__"]
