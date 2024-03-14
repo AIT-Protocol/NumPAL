@@ -190,7 +190,7 @@ class NumPAL(Chain):
             )
             bt.logging.info("\033[1;33mUsing the standard model instead...\033[0m")
 
-        allowed_imports_list = {"math", "numpy", "sympy", "scipy", "datetime"}
+        allowed_imports_list = {"math", "numpy", "sympy", "scipy", "datetime", "statistics", "random", "stats" }
         has_unallowed_imports = False
 
         if has_unallowed_imports:
