@@ -173,22 +173,17 @@ class NumPAL(Chain):
 
     @classmethod
     def validate_code(cls, code: str, code_validations: CodeValidation) -> None:
+        code_tree = None
         try:
             code_tree = ast.parse(code)
-        except (SyntaxError, UnicodeDecodeError):
-            bt.logging.error(f"\033[1;31mGenerated code is not valid python code: \033[0m{code}")
-            bt.logging.info("\033[1;33mUsing the standard model instead...\033[0m")
-        except TypeError:
-            bt.logging.error(
-                f"\033[1;31mTypeError: Expected code to be str,"
-                f"instead found {type(code)}"
-            )
-            bt.logging.info("\033[1;33mUsing the standard model instead...\033[0m")
-        except OverflowError:
-            bt.logging.error(
-                f"\033[1;31mOverflowError: Generated code too long / complex to run on python code: \033[0m{code}"
-            )
-            bt.logging.info("\033[1;33mUsing the standard model instead...\033[0m")
+        except (SyntaxError, UnicodeDecodeError) as e:
+            bt.logging.debug(f"\033[1;31mGenerated code is not valid python code: \033[0m{code}")
+            bt.logging.info("\033[1;33mUsing the standard model...\033[0m")
+            return
+        except (TypeError, OverflowError) as e:
+            bt.logging.error(f"\033[1;31m{type(e).__name__}: {str(e)}\033[0m")
+            bt.logging.info("\033[1;33mUsing the standard model...\033[0m")
+            return
 
         allowed_imports_list = {"math", "numpy", "sympy", "scipy", "datetime", "statistics", "random", "stats" }
         has_unallowed_imports = False
@@ -248,13 +243,13 @@ class NumPAL(Chain):
                 f"{code_validations.solution_expression_name} of type: "
                 f"{code_validations.solution_expression_type}\033[0m"
             )
-            bt.logging.info("\033[1;33mUsing the standard model instead...\033[0m")
+            bt.logging.info("\033[1;33mUsing the standard model...\033[0m")
 
         if not code_validations.allow_imports and has_imports:
             bt.logging.error(
                 f"\033[1;31mGenerated code has disallowed imports: \033[0m{code}"
             )
-            bt.logging.info("\033[1;33mUsing the standard model instead...\033[0m")
+            bt.logging.info("\033[1;33mUsing the standard model...\033[0m")
 
         if (
             not code_validations.allow_command_exec

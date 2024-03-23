@@ -1,2 +1,5 @@
 __pycache__
 NumPAL.egg-info
+*.ipynb
+*.ipynb_checkpoints
+.env
