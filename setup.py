@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='NumPAL',
-      version='1.1.0',
+      version='1.2.0',
       description='An open',
       url='https://github.com/ait-protocol/NumPAL',
       author='LVH-Tony',
